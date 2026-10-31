@@ -1,0 +1,33 @@
+# Dependencies & Package Managers
+node_modules/
+.pnpm-store/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+pnpm-debug.log*
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing / Coverage
+coverage/

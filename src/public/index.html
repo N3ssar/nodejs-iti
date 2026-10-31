@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#f6f7fb"
+    />
+    <title>Today | Todo List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Today home">
+          <span class="brand-mark" aria-hidden="true">t.</span>
+          <span>today</span>
+        </a>
+        <span class="topbar-note"><span class="status-dot"></span> Your space to focus</span>
+      </header>
+
+      <section class="todo-card" aria-labelledby="page-title">
+        <div class="intro">
+          <p class="eyebrow">A little progress goes a long way</p>
+          <h1 id="page-title">Make today <span>count.</span></h1>
+          <p class="intro-copy">Keep your priorities close and take them one at a time.</p>
+        </div>
+
+        <form id="todo-form" class="todo-form">
+          <label class="visually-hidden" for="todo-input">What needs to get done?</label>
+          <input
+            type="text"
+            id="todo-input"
+            name="title"
+            placeholder="What needs to get done?"
+            autocomplete="off"
+            maxlength="160"
+            required
+          />
+          <button class="add-button" type="submit">
+            <span aria-hidden="true">+</span>
+            <span>Add task</span>
+          </button>
+        </form>
+
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+
+        <div class="list-heading">
+          <div>
+            <h2>Your tasks</h2>
+            <p id="task-summary">Loading your list…</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter tasks">
+            <button class="filter-button is-selected" type="button" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter-button" type="button" data-filter="active" aria-pressed="false">Active</button>
+            <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">Done</button>
+          </div>
+        </div>
+
+        <ul id="todo-list" class="todo-list" aria-label="Your tasks" aria-busy="true"></ul>
+        <div id="empty-state" class="empty-state" hidden>
+          <span class="empty-icon" aria-hidden="true">✦</span>
+          <h3 id="empty-title">A clear list, a clear mind.</h3>
+          <p id="empty-copy">Add a task above and get your momentum going.</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">Small steps. Real progress.</footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
