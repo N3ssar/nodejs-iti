@@ -62,7 +62,8 @@ export async function getTodo(req, res) {
 
 export async function addNewTodo(req, res) {
   try {
-    const { title, userId } = req.body;
+    const { title } = req.body;
+    const userId = req.user.id;
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return res.status(400).json({

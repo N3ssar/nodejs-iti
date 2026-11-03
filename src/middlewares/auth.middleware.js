@@ -1,5 +1,6 @@
 import Util from "node:util";
 import jwt from "jsonwebtoken";
+import Todo from "../models/todos.model.js";
 
 async function auth(req, res, next) {
   try {
@@ -29,4 +30,33 @@ async function auth(req, res, next) {
   }
 }
 
-export default auth;
+function restrictTo(...roles) {
+  return async (req, res, next) => {
+    const userRole = req.user.role;
+    const userId = req.user.id;
+    const todoId = req.params.id;
+    if (!roles.includes(userRole)) {
+      return res.status(403).json({
+        message: "You are not authorized to perform this action",
+      });
+    }
+
+    if (userRole === "user" && req.method === "DELETE") {
+      return res.status(403).json({
+        message: "You are not authorized to perform this action",
+      });
+    }
+    const todoToUpdate = await Todo.findById(todoId);
+
+    const isOwner =
+      todoToUpdate && todoToUpdate.userId._id.toString() === userId;
+    if (!isOwner && userRole === "user") {
+      return res.status(403).json({
+        message: "You are not authorized to perform this action",
+      });
+    }
+    next();
+  };
+}
+
+export { auth, restrictTo };

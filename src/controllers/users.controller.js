@@ -2,7 +2,6 @@ import User from "../models/users.model.js";
 import Todo from "../models/todos.model.js";
 import bcrypt from "bcryptjs";
 
-
 export async function getAllUsers(_, res) {
   try {
     const users = await User.find({});
@@ -43,14 +42,18 @@ export async function getUser(req, res) {
 export async function saveUser(req, res) {
   try {
     const userData = req.body;
-
+    const { password } = userData;
     if (!userData || Object.keys(userData).length === 0) {
       return res.status(400).json({ message: "User data is required" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+    userData.password = hashedPassword;
+
     const savedUser = await User.create(userData);
 
     return res
+
       .status(201)
       .json({ message: "User created successfully", data: savedUser });
   } catch (error) {
@@ -72,12 +75,12 @@ export async function saveUser(req, res) {
 
 export async function updateUser(req, res) {
   const { id } = req.params;
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     const updates = {};
 
-    if (!username && !email && !password) {
+    if (!username && !email && !password && !role) {
       return res.status(400).json({ message: "There is no data to update!" });
     }
 
@@ -87,6 +90,7 @@ export async function updateUser(req, res) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updates.password = hashedPassword;
     }
+    if (role) updates.role = role;
 
     const userToUpdate = await User.findByIdAndUpdate(
       id,
@@ -171,4 +175,3 @@ export async function getUserTodos(req, res) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
-

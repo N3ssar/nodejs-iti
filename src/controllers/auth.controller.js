@@ -12,7 +12,6 @@ export async function login(req, res) {
         .json({ message: "Email and Password are required" });
     }
 
-    // 1. التشييك على وجود اليوزر الأول
     const userToLogon = await User.findOne({ email });
     if (!userToLogon) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -27,16 +26,19 @@ export async function login(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-
     const secretKey = process.env.JWT_SECRET_KEY;
 
     if (!secretKey) {
       throw new Error("JWT_SECRET_KEY is not defined in environment variables");
     }
 
-    const token = jwt.sign({ id: userToLogon._id }, secretKey, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: userToLogon._id, role: userToLogon.role },
+      secretKey,
+      {
+        expiresIn: "7d",
+      },
+    );
 
     return res
       .status(200)
